@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tasks/pages/home/widgets/empty_todo.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(Object context) {
     return Scaffold(
@@ -10,12 +13,13 @@ class HomePage extends StatelessWidget {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ListTile(title: Text('Task $index'));
-        },
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Colors.blue,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        child: Icon(Icons.add, color: Colors.white, size: 24),
       ),
+      body: Column(children: [EmptyTodo()]),
     );
   }
 }
