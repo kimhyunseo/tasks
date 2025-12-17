@@ -19,7 +19,13 @@ class EmptyTodo extends StatelessWidget {
           SizedBox(
             width: 100,
             height: 100,
-            child: Icon(Icons.calendar_month_rounded, size: 100),
+            child: ClipRRect(
+              borderRadius: BorderRadiusGeometry.circular(12),
+              child: Image.asset(
+                'assets/images/todonyang.webp',
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           SizedBox(height: 5),
           Text(

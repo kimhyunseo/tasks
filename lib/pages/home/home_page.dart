@@ -15,20 +15,32 @@ class _HomePageState extends State<HomePage> {
   String appName = 'Hyunseo\'s Tasks';
   List<ToDoEntity> todoList = [];
 
-  void onCreate(String todoTitle) {
+  void onCreate(ToDoEntity newTodo) {
     setState(() {
-      ToDoEntity newTodo = ToDoEntity(
-        title: todoTitle,
-        isDone: false,
-        isFavorite: false,
-      );
       todoList.add(newTodo);
+    });
+  }
+
+  void toggleFavorite(int index) {
+    setState(() {
+      todoList[index] = todoList[index].copyWith(
+        isFavorite: !todoList[index].isFavorite,
+      );
+    });
+  }
+
+  void toggleDone(int index) {
+    setState(() {
+      todoList[index] = todoList[index].copyWith(
+        isDone: !todoList[index].isDone,
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           appName,
@@ -47,11 +59,18 @@ class _HomePageState extends State<HomePage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: Icon(Icons.add, color: Colors.white, size: 24),
       ),
+
       body: Column(
         children: [
           todoList.isEmpty
               ? EmptyTodo(appName: appName)
-              : Expanded(child: TodoView(todoList: todoList)),
+              : Expanded(
+                  child: TodoView(
+                    todoList: todoList,
+                    onToggleDone: toggleDone,
+                    onToggleFavorite: toggleFavorite,
+                  ),
+                ),
         ],
       ),
     );
