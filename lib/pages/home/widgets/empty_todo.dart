@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class EmptyTodo extends StatelessWidget {
-  const EmptyTodo({super.key});
+  const EmptyTodo({super.key, required this.appName});
+  final String appName;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,9 @@ class EmptyTodo extends StatelessWidget {
           SizedBox(
             width: 100,
             height: 100,
-            child: Icon(Icons.ac_unit_sharp, size: 60),
+            child: Icon(Icons.calendar_month_rounded, size: 100),
           ),
+          SizedBox(height: 5),
           Text(
             "아직 할 일이 없음",
             style: TextStyle(
@@ -30,7 +32,7 @@ class EmptyTodo extends StatelessWidget {
           ),
           SizedBox(height: 2),
           Text(
-            "할 일을 추가하고 ${AppBar()}에서\n할 일을 추적하세요.",
+            "할 일을 추가하고 $appName에서\n할 일을 추적하세요.",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: Colors.black45),
           ),
