@@ -16,10 +16,17 @@ class _PlusTodoState extends State<PlusTodo> {
 
   void onSubmit() {
     final value = controller.text;
+    final descriptionValue = descriptiocontroller.text;
 
     if (value.trim().isEmpty) return;
 
-    widget.onCreate(ToDoEntity(title: value, isFavorite: isFavorite));
+    widget.onCreate(
+      ToDoEntity(
+        title: value,
+        isFavorite: isFavorite,
+        description: descriptionValue.isNotEmpty ? descriptionValue : null,
+      ),
+    );
     Navigator.pop(context);
   }
 
@@ -62,10 +69,11 @@ class _PlusTodoState extends State<PlusTodo> {
                   controller: descriptiocontroller,
                   // TODO: 아무런 값이 없을 때 메세지 띄우기
                   textInputAction: TextInputAction.done,
-                  autofocus: true,
                   onSubmitted: (_) {
                     onSubmit();
                   },
+                  minLines: 1,
+                  maxLines: 8,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 20),
                     hintText: "세부정보 추가",
