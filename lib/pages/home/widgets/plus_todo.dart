@@ -10,15 +10,20 @@ class PlusTodo extends StatefulWidget {
 
 class _PlusTodoState extends State<PlusTodo> {
   TextEditingController controller = TextEditingController();
-  TextEditingController descriptiocontroller = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   bool isFavorite = false;
   bool isDescription = false;
+  final FocusNode titleFocusNode = FocusNode();
+  final FocusNode descriptionFocusNode = FocusNode();
 
   void onSubmit() {
     final value = controller.text;
-    final descriptionValue = descriptiocontroller.text;
+    final descriptionValue = descriptionController.text;
 
-    if (value.trim().isEmpty) return;
+    if (value.trim().isEmpty) {
+      titleFocusNode.requestFocus();
+      return;
+    }
 
     widget.onCreate(
       ToDoEntity(
@@ -50,12 +55,14 @@ class _PlusTodoState extends State<PlusTodo> {
         children: [
           TextField(
             controller: controller,
-            // TODO: 아무런 값이 없을 때 메세지 띄우기
+            focusNode: titleFocusNode,
             textInputAction: TextInputAction.done,
             autofocus: true,
             onSubmitted: (_) {
               onSubmit();
             },
+            minLines: 1,
+            maxLines: 8,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(left: 20),
               hintText: "새 할 일",
@@ -66,9 +73,10 @@ class _PlusTodoState extends State<PlusTodo> {
           ),
           isDescription
               ? TextField(
-                  controller: descriptiocontroller,
-                  // TODO: 아무런 값이 없을 때 메세지 띄우기
+                  controller: descriptionController,
+                  focusNode: descriptionFocusNode,
                   textInputAction: TextInputAction.done,
+                  autofocus: true,
                   onSubmitted: (_) {
                     onSubmit();
                   },
@@ -89,6 +97,7 @@ class _PlusTodoState extends State<PlusTodo> {
                 onPressed: () {
                   setState(() {
                     isDescription = true;
+                    descriptionFocusNode.requestFocus();
                   });
                 },
                 icon: Icon(Icons.short_text_rounded, size: 24),

@@ -21,14 +21,17 @@ class TodoView extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(12, 12, 12, 150),
       itemCount: todoList.length,
       itemBuilder: (context, index) {
-        // TODO: 질문하기, 제일 큰 부모를 제스쳐로 감싼 뒤에 onTap을 해도 안에 자식들에게 영향이 안 가는지?
         return GestureDetector(
           onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return TodoDetailPage(index: index, todoList: todoList);
+                  return TodoDetailPage(
+                    index: index,
+                    todoList: todoList,
+                    onToggleFavorite: () => onToggleFavorite(index),
+                  );
                 },
               ),
             );
