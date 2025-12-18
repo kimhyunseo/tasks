@@ -37,12 +37,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void showSnack(BuildContext bottomSheetContext, String message) {
-    ScaffoldMessenger.of(bottomSheetContext).showSnackBar(
+  void showSnack(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
         behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 5),
+        duration: Duration(seconds: 2),
         margin: EdgeInsets.only(bottom: 400),
       ),
     );
@@ -63,12 +63,11 @@ class _HomePageState extends State<HomePage> {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            builder: (bottomContext) => PlusTodo(onCreate: onCreate),
+            builder: (context) =>
+                PlusTodo(onCreate: onCreate, onSnack: showSnack),
           );
         },
-        backgroundColor: Colors.blue,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: Icon(Icons.add, color: Colors.white, size: 24),
+        child: Icon(Icons.add),
       ),
 
       body: Column(

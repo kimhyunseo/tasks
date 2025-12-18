@@ -26,7 +26,7 @@ class _ToDoWidgetState extends State<ToDoWidget> {
       margin: EdgeInsets.symmetric(vertical: 8),
       padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        color: Colors.white54,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -52,7 +52,6 @@ class _ToDoWidgetState extends State<ToDoWidget> {
               decoration: widget.todo.isDone
                   ? TextDecoration.lineThrough
                   : TextDecoration.none,
-              color: widget.todo.isDone ? Colors.black45 : Colors.black,
             ),
           ),
           Spacer(),

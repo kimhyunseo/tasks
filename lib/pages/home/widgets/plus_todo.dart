@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tasks/pages/home/widgets/todo_entity.dart';
 
 class PlusTodo extends StatefulWidget {
-  const PlusTodo({super.key, required this.onCreate});
+  const PlusTodo({super.key, required this.onCreate, required this.onSnack});
   final void Function(ToDoEntity) onCreate;
+  final void Function(String) onSnack;
   @override
   State<PlusTodo> createState() => _PlusTodoState();
 }
@@ -22,6 +23,7 @@ class _PlusTodoState extends State<PlusTodo> {
 
     if (value.trim().isEmpty) {
       titleFocusNode.requestFocus();
+      widget.onSnack("할 일을 입력해주세요");
       return;
     }
 
@@ -46,7 +48,6 @@ class _PlusTodoState extends State<PlusTodo> {
     return Container(
       padding: EdgeInsets.only(
         top: 12,
-        // left: 20,
         right: 20,
         bottom: MediaQuery.of(context).viewInsets.bottom + 15,
       ),
@@ -118,13 +119,7 @@ class _PlusTodoState extends State<PlusTodo> {
                 onTap: () {
                   onSubmit();
                 },
-                child: Text(
-                  "저장",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: Text("저장"),
               ),
             ],
           ),
