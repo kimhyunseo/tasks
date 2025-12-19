@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tasks/pages/home/widgets/todo_entity.dart';
+import 'package:tasks/models/todo_entity.dart';
 import 'package:tasks/pages/home/widgets/todo_widget.dart';
 import 'package:tasks/pages/todo_detail/todo_detail_page.dart';
 

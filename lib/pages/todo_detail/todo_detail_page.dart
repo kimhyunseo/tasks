@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tasks/pages/home/widgets/todo_entity.dart';
+import 'package:tasks/models/todo_entity.dart';
 
 // 6. To DO 상세 보기 화면 만들기
 class TodoDetailPage extends StatefulWidget {

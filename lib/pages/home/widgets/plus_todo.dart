@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasks/pages/home/widgets/todo_entity.dart';
+import 'package:tasks/models/todo_entity.dart';
 
 // 4. Todo를 추가하는 화면 만들기
 class PlusTodo extends StatefulWidget {

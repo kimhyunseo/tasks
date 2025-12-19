@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasks/pages/home/widgets/empty_todo.dart';
 import 'package:tasks/pages/home/widgets/plus_todo.dart';
-import 'package:tasks/pages/home/widgets/todo_entity.dart';
+import 'package:tasks/models/todo_entity.dart';
 import 'package:tasks/pages/home/widgets/todo_view.dart';
 
 class HomePage extends StatefulWidget {
