@@ -1,29 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:tasks/pages/home/widgets/todo_entity.dart';
 
+// 4. Todo를 추가하는 화면 만들기
 class PlusTodo extends StatefulWidget {
-  const PlusTodo({super.key, required this.onCreate, required this.onSnack});
+  const PlusTodo({super.key, required this.onCreate});
   final void Function(ToDoEntity) onCreate;
-  final void Function(String) onSnack;
   @override
   State<PlusTodo> createState() => _PlusTodoState();
 }
 
 class _PlusTodoState extends State<PlusTodo> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+
   bool isFavorite = false;
   bool isDescription = false;
+  bool isTitleEmpty = true;
+
   final FocusNode titleFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
 
-  void onSubmit() {
-    final value = controller.text;
+  @override
+  void initState() {
+    super.initState();
+    titleController.addListener(() {
+      setState(() {
+        isTitleEmpty = titleController.text.trim().isEmpty;
+      });
+    });
+  }
+
+  // 할 일 추가할 때 사용자 값이 비어있으면 동장하지 않게 구현
+  void saveToDo() {
+    final value = titleController.text;
     final descriptionValue = descriptionController.text;
 
     if (value.trim().isEmpty) {
       titleFocusNode.requestFocus();
-      widget.onSnack("할 일을 입력해주세요");
       return;
     }
 
@@ -39,8 +52,11 @@ class _PlusTodoState extends State<PlusTodo> {
 
   @override
   void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    titleFocusNode.dispose();
+    descriptionFocusNode.dispose();
     super.dispose();
-    controller.dispose();
   }
 
   @override
@@ -48,22 +64,23 @@ class _PlusTodoState extends State<PlusTodo> {
     return Container(
       padding: EdgeInsets.only(
         top: 12,
-        right: 20,
         bottom: MediaQuery.of(context).viewInsets.bottom + 15,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
-            controller: controller,
+            controller: titleController,
             focusNode: titleFocusNode,
-            textInputAction: TextInputAction.done,
+            // 4-1. 자동으로 키보드가 뜨도록 구현 (autofocus)
             autofocus: true,
+            // 4-1. title용 textfiled에서 줄바꿈 대신 저장이 되도록 구현, 비어있을 때는 구현 x
+            textInputAction: TextInputAction.done,
             onSubmitted: (_) {
-              onSubmit();
+              saveToDo();
             },
             minLines: 1,
-            maxLines: 8,
+            maxLines: 3,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(left: 20),
               hintText: "새 할 일",
@@ -76,13 +93,10 @@ class _PlusTodoState extends State<PlusTodo> {
               ? TextField(
                   controller: descriptionController,
                   focusNode: descriptionFocusNode,
-                  textInputAction: TextInputAction.done,
-                  autofocus: true,
-                  onSubmitted: (_) {
-                    onSubmit();
-                  },
+                  // 4-3 줄바꿈이 일어나게 구현
+                  textInputAction: TextInputAction.newline,
                   minLines: 1,
-                  maxLines: 8,
+                  maxLines: 10,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 20),
                     hintText: "세부정보 추가",
@@ -94,16 +108,19 @@ class _PlusTodoState extends State<PlusTodo> {
               : SizedBox(),
           Row(
             children: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    isDescription = true;
-                    descriptionFocusNode.requestFocus();
-                  });
-                },
-                icon: Icon(Icons.short_text_rounded, size: 24),
-              ),
-
+              // 4-2. bool 값을 이용하여 아이콘 상태 표시
+              // ㄴ 설명 icon 눌렀을 때 description textfield 보이게 하고 표시시 icon 숨기기
+              isDescription
+                  ? SizedBox()
+                  : IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isDescription = true;
+                          descriptionFocusNode.requestFocus();
+                        });
+                      },
+                      icon: Icon(Icons.short_text_rounded, size: 24),
+                    ),
               IconButton(
                 onPressed: () {
                   setState(() {
@@ -115,10 +132,9 @@ class _PlusTodoState extends State<PlusTodo> {
                     : Icon(Icons.star_border_rounded, size: 24),
               ),
               Spacer(),
-              GestureDetector(
-                onTap: () {
-                  onSubmit();
-                },
+              TextButton(
+                // 4-2. 저장 버튼 요소가 있을 때만 활성화 (색상 차이 구현)
+                onPressed: isTitleEmpty ? null : saveToDo,
                 child: Text("저장"),
               ),
             ],

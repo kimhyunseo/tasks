@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// 3. 기본 화면 (To Do 리스트가 없는 화면)
 class EmptyTodo extends StatelessWidget {
   const EmptyTodo({super.key, required this.appName});
   final String appName;
@@ -27,16 +28,16 @@ class EmptyTodo extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 12),
           Text(
             "아직 할 일이 없음",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 2),
+          SizedBox(height: 12),
           Text(
             "할 일을 추가하고 $appName에서\n할 일을 추적하세요.",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: 14, height: 1.5),
           ),
         ],
       ),

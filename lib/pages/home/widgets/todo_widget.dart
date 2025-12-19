@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasks/pages/home/widgets/todo_entity.dart';
 
-class ToDoWidget extends StatefulWidget {
+class ToDoWidget extends StatelessWidget {
   const ToDoWidget({
     super.key,
     required this.todo,
@@ -14,15 +14,10 @@ class ToDoWidget extends StatefulWidget {
   final VoidCallback onToggleDone;
 
   @override
-  State<ToDoWidget> createState() => _ToDoWidgetState();
-}
-
-class _ToDoWidgetState extends State<ToDoWidget> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 50,
+      constraints: BoxConstraints(minHeight: 50),
       margin: EdgeInsets.symmetric(vertical: 8),
       padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
@@ -31,43 +26,36 @@ class _ToDoWidgetState extends State<ToDoWidget> {
       ),
       child: Row(
         children: [
-          widget.todo.isDone
-              ? IconButton(
-                  onPressed: () {
-                    widget.onToggleDone();
-                  },
-                  icon: Icon(Icons.check_circle_rounded, size: 24),
-                )
-              : IconButton(
-                  onPressed: () {
-                    widget.onToggleDone();
-                  },
-                  icon: Icon(Icons.circle_outlined, size: 24),
-                ),
+          IconButton(
+            onPressed: onToggleDone,
+            icon: Icon(
+              todo.isDone ? Icons.check_circle_rounded : Icons.circle_outlined,
+              size: 24,
+            ),
+          ),
           SizedBox(width: 12),
 
           Text(
-            widget.todo.title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            todo.title,
             style: TextStyle(
-              decoration: widget.todo.isDone
+              // 5-1 Done 상태에 따라 취소선 상태 적용
+              decoration: todo.isDone
                   ? TextDecoration.lineThrough
                   : TextDecoration.none,
             ),
           ),
           Spacer(),
-          widget.todo.isFavorite
-              ? IconButton(
-                  onPressed: () {
-                    widget.onToggleFavorite();
-                  },
-                  icon: Icon(Icons.star_rounded, size: 28),
-                )
-              : IconButton(
-                  onPressed: () {
-                    widget.onToggleFavorite();
-                  },
-                  icon: Icon(Icons.star_border_rounded, size: 28),
-                ),
+          // 5-1. 버튼이 눌렸을 때 fvorite 상태 변경
+          IconButton(
+            onPressed: () {
+              onToggleFavorite();
+            },
+            icon: todo.isFavorite
+                ? Icon(Icons.star_rounded, size: 28)
+                : Icon(Icons.star_border_rounded, size: 28),
+          ),
         ],
       ),
     );
