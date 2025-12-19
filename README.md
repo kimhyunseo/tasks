@@ -15,8 +15,24 @@ Flutter 할 일 관리 애플리케이션입니다.
 
 ## 📸 실행 화면 (Screenshots)
 
-Empty View,Add Task,To-Do List,Detail View
-(이미지 삽입),(이미지 삽입),(이미지 삽입),(이미지 삽입)
+- Empty View
+<img width="300" alt="Empty View" src="https://github.com/user-attachments/assets/8d8b0035-9103-444d-8e24-576d55f5c4fb" />
+
+- Add Task
+<img width="300" alt="plustodo" src="https://github.com/user-attachments/assets/b3e1004e-0485-456c-87ad-3faacf188741" />
+<img width="300"alt="plustodo2" src="https://github.com/user-attachments/assets/5dd50899-caca-428a-8a27-74014f639a6b" />
+
+- To-Do List
+<img width="300" alt="todolistview" src="https://github.com/user-attachments/assets/a9812389-8c3d-4f7f-bb87-baf1a3146c5d" />
+
+- Detail View
+<img width="300" alt="detail view" src="https://github.com/user-attachments/assets/3280ad03-d506-4cab-b488-dc5ef7f4f9bf" />
+
+- Dark Mode
+<img width="300" alt="Empty View:dark" src="https://github.com/user-attachments/assets/b6668519-ae7c-4ee9-ae30-4eb5f1ba8430" />
+<img width="300" alt="todolistview:dark" src="https://github.com/user-attachments/assets/c5454ebb-caa0-4e02-a9c1-094834b24708" />
+<img width="300" alt="detail view:dark" src="https://github.com/user-attachments/assets/35711add-392f-4959-88eb-46d6eb622b39" />
+
 
 ---
 
