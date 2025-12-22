@@ -30,12 +30,12 @@ class _PlusTodoState extends State<PlusTodo> {
     });
   }
 
-  // 할 일 추가할 때 사용자 값이 비어있으면 동장하지 않게 구현
+  // 할 일 추가할 때 사용자 값이 비어있으면 동작하지 않게 구현
   void saveToDo() {
     final value = titleController.text;
     final descriptionValue = descriptionController.text;
 
-    if (value.trim().isEmpty) {
+    if (isTitleEmpty) {
       titleFocusNode.requestFocus();
       return;
     }
@@ -89,38 +89,38 @@ class _PlusTodoState extends State<PlusTodo> {
             ),
             style: TextStyle(fontSize: 16),
           ),
-          isDescription
-              ? TextField(
-                  controller: descriptionController,
-                  focusNode: descriptionFocusNode,
-                  // 4-3 줄바꿈이 일어나게 구현
-                  textInputAction: TextInputAction.newline,
-                  minLines: 1,
-                  maxLines: 10,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 20),
-                    hintText: "세부정보 추가",
-                    hintStyle: TextStyle(fontSize: 12),
-                    border: InputBorder.none,
-                  ),
-                  style: TextStyle(fontSize: 14),
-                )
-              : SizedBox(),
+
+          if (isDescription)
+            TextField(
+              controller: descriptionController,
+              focusNode: descriptionFocusNode,
+              // 4-3 줄바꿈이 일어나게 구현
+              textInputAction: TextInputAction.newline,
+              minLines: 1,
+              maxLines: 10,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(left: 20),
+                hintText: "세부정보 추가",
+                hintStyle: TextStyle(fontSize: 12),
+                border: InputBorder.none,
+              ),
+              style: TextStyle(fontSize: 14),
+            ),
+
           Row(
             children: [
               // 4-2. bool 값을 이용하여 아이콘 상태 표시
               // ㄴ 설명 icon 눌렀을 때 description textfield 보이게 하고 표시시 icon 숨기기
-              isDescription
-                  ? SizedBox()
-                  : IconButton(
-                      onPressed: () {
-                        setState(() {
-                          isDescription = true;
-                          descriptionFocusNode.requestFocus();
-                        });
-                      },
-                      icon: Icon(Icons.short_text_rounded, size: 24),
-                    ),
+              if (isDescription)
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isDescription = true;
+                      descriptionFocusNode.requestFocus();
+                    });
+                  },
+                  icon: Icon(Icons.short_text_rounded, size: 24),
+                ),
               IconButton(
                 onPressed: () {
                   setState(() {
