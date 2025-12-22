@@ -111,7 +111,7 @@ class _PlusTodoState extends State<PlusTodo> {
             children: [
               // 4-2. bool 값을 이용하여 아이콘 상태 표시
               // ㄴ 설명 icon 눌렀을 때 description textfield 보이게 하고 표시시 icon 숨기기
-              if (isDescription)
+              if (isDescription == false)
                 IconButton(
                   onPressed: () {
                     setState(() {
