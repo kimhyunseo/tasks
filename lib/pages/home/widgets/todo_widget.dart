@@ -47,7 +47,7 @@ class ToDoWidget extends StatelessWidget {
             ),
           ),
           Spacer(),
-          // 5-1. 버튼이 눌렸을 때 fvorite 상태 변경
+          // 5-1. 버튼이 눌렸을 때 favorite 상태 변경
           IconButton(
             onPressed: () {
               onToggleFavorite();
