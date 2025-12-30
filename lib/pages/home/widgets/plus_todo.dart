@@ -42,6 +42,7 @@ class _PlusTodoState extends State<PlusTodo> {
 
     widget.onCreate(
       ToDoEntity(
+        id: DateTime.now().microsecondsSinceEpoch.toString(),
         title: value,
         isFavorite: isFavorite,
         description: descriptionValue.isNotEmpty ? descriptionValue : null,

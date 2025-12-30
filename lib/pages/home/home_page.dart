@@ -30,34 +30,46 @@ class _HomePageState extends State<HomePage> {
   }
 
   // 즐겨찾기 토글 함수
-  void toggleFavorite(int index) {
+  void toggleFavorite(String id) {
+    final todoIndex = todoList.indexWhere((todo) => todo.id == id);
+    if (todoIndex == -1) return;
+
     setState(() {
-      todoList[index] = todoList[index].copyWith(
-        isFavorite: !todoList[index].isFavorite,
+      todoList[todoIndex] = todoList[todoIndex].copyWith(
+        id: todoList[todoIndex].id,
+        isFavorite: !todoList[todoIndex].isFavorite,
       );
     });
   }
 
   // Todo 완료 토글 함수
-  void toggleDone(int index) {
+  void toggleDone(String id) {
+    final todoIndex = todoList.indexWhere((todo) => todo.id == id);
+    if (todoIndex == -1) return;
     setState(() {
-      todoList[index] = todoList[index].copyWith(
-        isDone: !todoList[index].isDone,
+      todoList[todoIndex] = todoList[todoIndex].copyWith(
+        id: todoList[todoIndex].id,
+        isDone: !todoList[todoIndex].isDone,
       );
     });
   }
 
   //  Todo 삭제 함수
-  void deleteTodo(int index) {
+  void deleteTodo(String id) {
+    final todoIndex = todoList.indexWhere((todo) => todo.id == id);
+    if (todoIndex == -1) return;
     setState(() {
-      todoList.removeAt(index);
+      todoList.removeAt(todoIndex);
     });
   }
 
   //  Todo 수정 함수
-  void editTodo(int index, String editTitle, String editDescription) {
+  void editTodo(String id, String editTitle, String editDescription) {
+    final todoIndex = todoList.indexWhere((todo) => todo.id == id);
+    if (todoIndex == -1) return;
     setState(() {
-      todoList[index] = todoList[index].copyWith(
+      todoList[todoIndex] = todoList[todoIndex].copyWith(
+        id: todoList[todoIndex].id,
         title: editTitle,
         description: editDescription,
       );

@@ -17,10 +17,10 @@ class TodoView extends StatelessWidget {
   });
 
   final List<ToDoEntity> todoList;
-  final void Function(int) onToggleFavorite;
-  final void Function(int) onToggleDone;
-  final void Function(int) deleteTodo;
-  final void Function(int, String, String) editTodo;
+  final void Function(String id) onToggleFavorite;
+  final void Function(String id) onToggleDone;
+  final void Function(String id) deleteTodo;
+  final void Function(String id, String title, String description) editTodo;
 
   @override
   Widget build(BuildContext context) {
@@ -28,56 +28,108 @@ class TodoView extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(12, 12, 12, 150),
       itemCount: todoList.length,
       itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return TodoDetailPage(
-                    index: index,
-                    todoList: todoList,
-                    onToggleFavorite: () => onToggleFavorite(index),
-                    deleteTodo: () => deleteTodo(index),
-                    editTodo: editTodo,
-                  );
-                },
-              ),
-            );
+        return Dismissible(
+          key: Key(todoList[index].id),
+          direction: DismissDirection.horizontal,
+          confirmDismiss: (direction) {
+            if (direction == DismissDirection.startToEnd) {
+              // 완료 처리
+              onToggleDone(todoList[index].id);
+              return Future.value(false); // 아이템 삭제 안함
+            } else if (direction == DismissDirection.endToStart) {
+              // 삭제 처리
+              return showCupertinoDialog<bool>(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  title: Text("삭제 확인"),
+                  content: Text("정말 삭제하시겠습니까?"),
+                  actions: [
+                    CupertinoDialogAction(
+                      onPressed: () {
+                        Navigator.pop(context, false);
+                      },
+                      child: Text("취소"),
+                    ),
+                    CupertinoDialogAction(
+                      isDestructiveAction: true,
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                      },
+                      child: Text("삭제"),
+                    ),
+                  ],
+                ),
+              ).then((value) => value ?? false);
+            }
+            return Future.value(false);
           },
-          onLongPress: () {
-            showCupertinoDialog(
-              context: context,
-              builder: (context) => CupertinoAlertDialog(
-                title: Text("삭제 확인"),
-                content: Text("정말 삭제하시겠습니까?"),
-                actions: [
-                  CupertinoDialogAction(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("취소"),
-                  ),
-                  CupertinoDialogAction(
-                    isDestructiveAction: true,
-                    onPressed: () {
-                      deleteTodo(index);
-                      Navigator.pop(context);
-                    },
-                    child: Text("삭제"),
-                  ),
-                ],
-              ),
-            );
+          onDismissed: (direction) {
+            deleteTodo(todoList[index].id);
           },
-          child: ToDoWidget(
-            todo: todoList[index],
-            onToggleFavorite: () {
-              onToggleFavorite(index);
+          background: Container(
+            color: Colors.green,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(left: 20),
+            child: Icon(Icons.check, color: Colors.white),
+          ),
+          secondaryBackground: Container(
+            color: Colors.red,
+            alignment: Alignment.centerRight,
+            padding: EdgeInsets.only(right: 20),
+            child: Icon(Icons.delete, color: Colors.white),
+          ),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return TodoDetailPage(
+                      index: index,
+                      todoList: todoList,
+                      onToggleFavorite: () =>
+                          onToggleFavorite(todoList[index].id),
+                      deleteTodo: () => deleteTodo(todoList[index].id),
+                      editTodo: editTodo,
+                    );
+                  },
+                ),
+              );
             },
-            onToggleDone: () {
-              onToggleDone(index);
+            onLongPress: () {
+              showCupertinoDialog(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  title: Text("삭제 확인"),
+                  content: Text("정말 삭제하시겠습니까?"),
+                  actions: [
+                    CupertinoDialogAction(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("취소"),
+                    ),
+                    CupertinoDialogAction(
+                      isDestructiveAction: true,
+                      onPressed: () {
+                        deleteTodo(todoList[index].id);
+                        Navigator.pop(context);
+                      },
+                      child: Text("삭제"),
+                    ),
+                  ],
+                ),
+              );
             },
+            child: ToDoWidget(
+              todo: todoList[index],
+              onToggleFavorite: () {
+                onToggleFavorite(todoList[index].id);
+              },
+              onToggleDone: () {
+                onToggleDone(todoList[index].id);
+              },
+            ),
           ),
         );
       },

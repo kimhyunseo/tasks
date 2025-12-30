@@ -16,7 +16,7 @@ class TodoDetailPage extends StatefulWidget {
   final int index;
   final VoidCallback onToggleFavorite;
   final VoidCallback deleteTodo;
-  final void Function(int, String, String) editTodo;
+  final void Function(String, String, String) editTodo;
 
   @override
   State<TodoDetailPage> createState() => _TodoDetailPageState();
@@ -55,7 +55,7 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
             isDestructiveAction: true,
             onPressed: () {
               widget.editTodo(
-                widget.index,
+                widget.todoList[widget.index].id,
                 titleController.text,
                 descriptionController.text,
               );
